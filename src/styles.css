@@ -25,17 +25,47 @@ body {
   font-family: sans-serif;
   margin: 0 50px;
   background-color: #e5e5e5;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  display: grid;
+  grid:
+    'header header header header' auto '...... lists  active ......' auto/1fr minmax(
+      100px,
+      500px
+    )
+    minmax(25rem, 50rem) 1fr;
+}
+
+.title {
+  grid-area: header;
+  text-align: center;
+  font-size: calc(7vw + 2rem);
+  font-weight: 900;
+  color: rgba(0, 0, 0, 0.1);
+  letter-spacing: 2px;
+  margin: 0.5rem 0 0.5rem;
+}
+
+.all-tasks {
+  grid-area: lists;
+}
+
+.task-list {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  list-style: circle;
+  padding-left: 1.1em;
+}
+
+.list-name {
+  cursor: pointer;
+}
+
+.todo-list {
+  grid-area: active;
 }
 
 .app {
+  display: grid;
   background-color: #fff;
-  width: 300px;
-  height: 500px;
   border: 5px solid #abcea1;
   border-radius: 8px;
   padding: 15px;
@@ -62,13 +92,11 @@ body {
 
 #tasks {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   gap: 14px;
 }
 
 #tasks div {
-  border: 3px solid #abcea1;
-  background-color: #e2eede;
   border-radius: 6px;
   padding: 5px;
   display: grid;
@@ -83,4 +111,19 @@ body {
 
 #tasks div .options i {
   cursor: pointer;
+}
+
+[data-priority='low'] {
+  border: 3px solid hsla(107, 31%, 72%, 1);
+  background-color: hsla(107, 31%, 72%, 0.7);
+}
+
+[data-priority='medium'] {
+  border: 3px solid hsla(205, 100%, 75%, 1);
+  background-color: hsla(205, 100%, 75%, 0.7);
+}
+
+[data-priority='high'] {
+  border: 3px solid hsla(360, 100%, 57%, 0.3);
+  background-color: hsla(360, 100%, 57%, 0.2);
 }

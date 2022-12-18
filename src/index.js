@@ -2,6 +2,7 @@
 import './styles.css';
 
 let form = document.getElementById('form');
+let priorityInput = document.getElementById('priorityInput');
 let textInput = document.getElementById('textInput');
 let dateInput = document.getElementById('dateInput');
 let textarea = document.getElementById('textarea');
@@ -37,6 +38,7 @@ let data = [];
 let acceptData = () => {
   data.push({
     id: Date.now().toString(),
+    priority: priorityInput.value,
     text: textInput.value,
     date: dateInput.value,
     description: textarea.value,
@@ -56,6 +58,9 @@ let createTasks = () => {
     const tasksDiv = tasksElement.querySelector('[data-tasks-div]');
     tasksDiv.id = task.id;
     console.log(task.id);
+    const priority = document.querySelector('data-priority');
+    tasksDiv.dataset.priority = task.priority;
+    console.log(task.priority);
     let nameSpan = tasksElement.querySelector('[data-task-name]');
     nameSpan.innerHTML = task.text;
     console.log(task.text);
@@ -97,8 +102,10 @@ tasks.addEventListener('click', (e) => {
   if (e.target.classList.contains('fa-trash-alt')) {
     deleteTask(e);
     createTasks();
-  } else {
+  } else if (e.target.classList.contains('fa-edit')) {
     editTask(e);
+  } else {
+    return;
   }
 });
 
