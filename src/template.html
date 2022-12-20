@@ -23,8 +23,9 @@
   <body>
     <!-- Modal -->
     <form
+      data-new-task-form
       class="modal fade"
-      id="form"
+      id="newTaskForm"
       data-bs-backdrop="static"
       data-bs-keyboard="false"
       tabindex="-1"
@@ -42,29 +43,37 @@
           </div>
           <div class="modal-body">
             <div class="input-group mb-3">
-              <label class="input-group-text" for="priorityInput"
+              <label class="input-group-text" for="newTaskPriorityInput"
                 >Priority</label
               >
-              <select class="form-select" id="priorityInput">
-                <option selected>Choose...</option>
-                <option value="low">Low</option>
+              <select class="form-select" id="newTaskPriorityInput">
+                <option value="" hidden>Choose...</option>
+                <option value="low" selected>Low</option>
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
               </select>
             </div>
             <br />
             <p>Task Title</p>
-            <input type="text" class="form-control" name="" id="textInput" />
-            <div id="msg"></div>
+            <input
+              type="text"
+              class="form-control"
+              name=""
+              id="newTaskNameInput" />
+            <div id="newTaskMessage"></div>
             <br />
             <p>Due Date</p>
-            <input type="date" class="form-control" name="" id="dateInput" />
+            <input
+              type="date"
+              class="form-control"
+              name=""
+              id="newTaskDueDateInput" />
             <br />
             <p>Description</p>
             <textarea
               name=""
               class="form-control"
-              id="textarea"
+              id="newTaskDescriptionInput"
               cols="30"
               rows="5"></textarea>
           </div>
@@ -75,7 +84,55 @@
               data-bs-dismiss="modal">
               Close
             </button>
-            <button type="submit" id="add" class="btn btn-primary">Add</button>
+            <button type="submit" id="addTask" class="btn btn-primary">
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <form
+      data-new-project-form
+      class="modal fade"
+      id="newProjectForm"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              Add New Project
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Project Title</p>
+            <input
+              data-new-project-input
+              type="text"
+              class="form-control"
+              name=""
+              id="newProjectNameInput" />
+            <div id="newProjectMessage"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="submit" id="addProject" class="btn btn-primary">
+              Add
+            </button>
           </div>
         </div>
       </div>
@@ -83,11 +140,11 @@
 
     <h1 class="title">Stuff I need to do</h1>
 
-    <div class="all-tasks">
-      <h2 class="task-list-title">My lists</h2>
-      <ul class="task-list" data-lists></ul>
+    <div class="all-projects">
+      <h4 class="mb-3 projects-list-title">My Projects</h4>
+      <ul class="projects-list" data-projects-list></ul>
 
-      <form action="" data-new-list-form>
+      <!-- <form action="" data-new-list-form>
         <input
           type="text"
           class="new list"
@@ -95,23 +152,52 @@
           placeholder="new list name"
           aria-label="new list name" />
         <button class="btn create" aria-label="create new list">+</button>
-      </form>
+      </form> -->
+
+      <div
+        id="addNewProject"
+        data-bs-toggle="modal"
+        data-bs-target="#newProjectForm">
+        <span>Add New Project</span>
+        <i class="fas fa-plus"></i>
+      </div>
     </div>
 
-    <div class="app todo-list">
-      <h4 class="mb-3">TODO App</h4>
+    <div class="app todo-list" data-tasks-container>
+      <!-- <h4 class="mb-3">TODO App</h4> -->
 
-      <div id="addNew" data-bs-toggle="modal" data-bs-target="#form">
+      <div class="todo-header">
+        <h4 class="mb-3 project-title" data-project-title>YouTube</h4>
+        <p class="task-count" data-task-count>3 tasks remaining</p>
+      </div>
+
+      <div id="addNew" data-bs-toggle="modal" data-bs-target="#newTaskForm">
         <span>Add New Task</span>
         <i class="fas fa-plus"></i>
       </div>
       <h5 class="text-center my-3">Tasks</h5>
 
-      <div id="tasks"></div>
+      <div id="tasks" data-tasks></div>
     </div>
+
+    <div class="delete-stuff">
+      <button class="btn delete" data-clear-complete-tasks-button>
+        Clear completed tasks
+      </button>
+      <button class="btn delete" data-delete-project-button>
+        Delete project
+      </button>
+    </div>
+
     <template id="tasks-template">
       <div id="" class="tasksdiv" data-tasks-div data-priority>
-        <span class="fw-bold" data-task-name></span>
+        <div class="form-check task-checkbox" data-task-checkbox>
+          <input type="checkbox" value="" id="flexCheckDefault" />
+          <label class="form-check-label" for="flexCheckDefault"
+            >&nbsp;
+            <span class="fw-bold" data-task-name></span>
+          </label>
+        </div>
         <span class="small text-secondary" data-task-date></span>
         <p class="description" data-task-description></p>
 

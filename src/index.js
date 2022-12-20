@@ -1,34 +1,75 @@
 'use strict';
 import './styles.css';
 
-let form = document.getElementById('form');
-let priorityInput = document.getElementById('priorityInput');
-let textInput = document.getElementById('textInput');
-let dateInput = document.getElementById('dateInput');
-let textarea = document.getElementById('textarea');
-let msg = document.getElementById('msg');
-let tasks = document.getElementById('tasks');
-let add = document.getElementById('add');
+const projectsContainer = document.querySelector('[data-projects-list]');
+const newProjectForm = document.querySelector('[data-new-project-form]');
+// const newProjectNameInput = document.querySelector('[data-new-project-input]');
+const tasksContainer = document.querySelector('[data-tasks-container]');
+const projectTitle = document.querySelector('[data-project-title]');
+const taskCount = document.querySelector('[data-task-count]');
+const tasks = document.querySelector('[data-tasks]');
+const clearCompleteTasksButton = document.querySelector(
+  '[data-clear-complete-tasks-button]'
+);
+const deleteProjectButton = document.querySelector(
+  '[data-delete-project-button]'
+);
+
+const newTaskForm = document.querySelector('[data-new-task-form]');
+const newTaskPriorityInput = document.getElementById('newTaskPriorityInput');
+const newTaskNameInput = document.getElementById('newTaskNameInput');
+const newProjectNameInput = document.getElementById('newProjectNameInput');
+const newTaskDueDateInput = document.getElementById('newTaskDueDateInput');
+const newTaskDescriptionInput = document.getElementById(
+  'newTaskDescriptionInput'
+);
+const newTaskMessage = document.getElementById('newTaskMessage');
+const newProjectMessage = document.getElementById('newProjectMessage');
+const addTask = document.getElementById('addTask');
+const addProject = document.getElementById('addProject');
 const tasksTemplate = document.getElementById('tasks-template');
 
-form.addEventListener('submit', (e) => {
+newTaskForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  formValidation();
+  newTaskFormValidation();
 });
 
-let formValidation = () => {
-  if (textInput.value === '') {
+newProjectForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  newProjectFormValidation();
+});
+
+const newTaskFormValidation = () => {
+  if (newTaskNameInput.value === '') {
     console.log('failure');
-    msg.innerHTML = 'Task cannot be blank';
+    newTaskMessage.innerHTML = 'Task cannot be blank';
   } else {
     console.log('success');
-    msg.innerHTML = '';
+    newTaskMessage.innerHTML = '';
     acceptData();
-    add.setAttribute('data-bs-dismiss', 'modal');
-    add.click();
+    addTask.setAttribute('data-bs-dismiss', 'modal');
+    addTask.click();
 
     (() => {
-      add.setAttribute('data-bs-dismiss', '');
+      addTask.setAttribute('data-bs-dismiss', '');
+    })();
+  }
+};
+
+const newProjectFormValidation = () => {
+  const projectName = newProjectNameInput.value;
+  if (projectName == null || projectName === '') {
+    console.log('failure');
+    newProjectMessage.innerHTML = 'Project cannot be blank';
+  } else {
+    console.log('success');
+    newProjectMessage.innerHTML = '';
+    // acceptData();
+    addProject.setAttribute('data-bs-dismiss', 'modal');
+    addProject.click();
+
+    (() => {
+      addProject.setAttribute('data-bs-dismiss', '');
     })();
   }
 };
@@ -38,10 +79,10 @@ let data = [];
 let acceptData = () => {
   data.push({
     id: Date.now().toString(),
-    priority: priorityInput.value,
-    text: textInput.value,
-    date: dateInput.value,
-    description: textarea.value,
+    priority: newTaskPriorityInput.value,
+    text: newTaskNameInput.value,
+    date: newTaskDueDateInput.value,
+    description: newTaskDescriptionInput.value,
   });
 
   localStorage.setItem('data', JSON.stringify(data));
@@ -73,7 +114,7 @@ let createTasks = () => {
     tasks.appendChild(tasksElement);
   });
 
-  form.reset();
+  newTaskForm.reset();
 };
 
 let deleteTask = (e) => {
@@ -91,9 +132,10 @@ let deleteTask = (e) => {
 let editTask = (e) => {
   let selectedTask = e.target.parentElement.parentElement;
 
-  textInput.value = selectedTask.children[0].innerHTML;
-  dateInput.value = selectedTask.children[1].innerHTML;
-  textarea.value = selectedTask.children[2].innerHTML;
+  newTaskNameInput.value =
+    selectedTask.firstElementChild.children[1].textContent.trim();
+  newTaskDueDateInput.value = selectedTask.children[1].innerHTML;
+  newTaskDescriptionInput.value = selectedTask.children[2].innerHTML;
 
   deleteTask(e);
 };

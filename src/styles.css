@@ -39,16 +39,21 @@ body {
   text-align: center;
   font-size: calc(7vw + 2rem);
   font-weight: 900;
-  color: rgba(0, 0, 0, 0.1);
+  color: hsla(107, 31%, 72%, 0.7);
   letter-spacing: 2px;
   margin: 0.5rem 0 0.5rem;
 }
 
-.all-tasks {
+.all-projects {
   grid-area: lists;
+  background-color: #fff;
+  border: 5px solid #abcea1;
+  border-radius: 8px;
+  padding: 15px;
+  margin-right: 1rem;
 }
 
-.task-list {
+.projects-list {
   font-size: 1.2rem;
   line-height: 1.7;
   list-style: circle;
@@ -61,6 +66,12 @@ body {
 
 .todo-list {
   grid-area: active;
+}
+
+.todo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .app {
@@ -80,13 +91,26 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
+
+#addNewProject {
+  /* width: 60%; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(171, 206, 161, 0.35);
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .fa-plus {
   background-color: #abcea1;
   padding: 3px;
   border-radius: 3px;
 }
 
-#msg {
+#newTaskMessage,
+#newProjectMessage {
   color: red;
 }
 
@@ -99,18 +123,31 @@ body {
 #tasks div {
   border-radius: 6px;
   padding: 5px;
-  display: grid;
-  gap: 4px;
+  /* display: grid; */
+  /* gap: 4px; */
 }
 
 #tasks div .options {
-  justify-self: center;
   display: flex;
+  justify-content: center;
   gap: 20px;
 }
 
 #tasks div .options i {
   cursor: pointer;
+}
+
+.task-checkbox {
+  margin: 0;
+  padding: 0;
+}
+
+[data-task-date] {
+  padding-left: 5px;
+}
+
+[data-task-description] {
+  padding-left: 5px;
 }
 
 [data-priority='low'] {
@@ -119,8 +156,10 @@ body {
 }
 
 [data-priority='medium'] {
-  border: 3px solid hsla(205, 100%, 75%, 1);
-  background-color: hsla(205, 100%, 75%, 0.7);
+  /* border: 3px solid hsla(205, 100%, 75%, 0.7); */
+  border: 3px solid hsla(40, 56%, 62%, 0.5);
+  /* background-color: hsla(205, 100%, 75%, 0.5); */
+  background-color: hsla(40, 56%, 62%, 0.3);
 }
 
 [data-priority='high'] {
