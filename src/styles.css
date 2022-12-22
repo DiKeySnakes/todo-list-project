@@ -60,12 +60,12 @@ body {
   padding-left: 1.1em;
 }
 
-.list-name {
-  cursor: pointer;
+.active-project {
+  font-weight: bold;
 }
 
-.todo-list {
-  grid-area: active;
+.list-name {
+  cursor: pointer;
 }
 
 .todo-header {
@@ -74,7 +74,8 @@ body {
   justify-content: space-between;
 }
 
-.app {
+#tasksContainer {
+  grid-area: active;
   display: grid;
   background-color: #fff;
   border: 5px solid #abcea1;
@@ -93,7 +94,6 @@ body {
 }
 
 #addNewProject {
-  /* width: 60%; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -114,26 +114,24 @@ body {
   color: red;
 }
 
-#tasks {
+#tasksCards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   gap: 14px;
 }
 
-#tasks div {
+#tasksCards div {
   border-radius: 6px;
   padding: 5px;
-  /* display: grid; */
-  /* gap: 4px; */
 }
 
-#tasks div .options {
+#tasksCards div .options {
   display: flex;
   justify-content: center;
   gap: 20px;
 }
 
-#tasks div .options i {
+#tasksCards div .options i {
   cursor: pointer;
 }
 
@@ -156,13 +154,21 @@ body {
 }
 
 [data-priority='medium'] {
-  /* border: 3px solid hsla(205, 100%, 75%, 0.7); */
   border: 3px solid hsla(40, 56%, 62%, 0.5);
-  /* background-color: hsla(205, 100%, 75%, 0.5); */
   background-color: hsla(40, 56%, 62%, 0.3);
 }
 
 [data-priority='high'] {
   border: 3px solid hsla(360, 100%, 57%, 0.3);
   background-color: hsla(360, 100%, 57%, 0.2);
+}
+
+.complete {
+  background-color: #fff;
+}
+
+[data-task-name='complete'],
+[data-task-date='complete'],
+[data-task-description='complete'] {
+  text-decoration: line-through;
 }

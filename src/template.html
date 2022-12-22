@@ -144,16 +144,6 @@
       <h4 class="mb-3 projects-list-title">My Projects</h4>
       <ul class="projects-list" data-projects-list></ul>
 
-      <!-- <form action="" data-new-list-form>
-        <input
-          type="text"
-          class="new list"
-          data-new-list-input
-          placeholder="new list name"
-          aria-label="new list name" />
-        <button class="btn create" aria-label="create new list">+</button>
-      </form> -->
-
       <div
         id="addNewProject"
         data-bs-toggle="modal"
@@ -163,9 +153,7 @@
       </div>
     </div>
 
-    <div class="app todo-list" data-tasks-container>
-      <!-- <h4 class="mb-3">TODO App</h4> -->
-
+    <div id="tasksContainer" class="app todo-list" data-tasks-container>
       <div class="todo-header">
         <h4 class="mb-3 project-title" data-project-title>YouTube</h4>
         <p class="task-count" data-task-count>3 tasks remaining</p>
@@ -177,7 +165,7 @@
       </div>
       <h5 class="text-center my-3">Tasks</h5>
 
-      <div id="tasks" data-tasks></div>
+      <div id="tasksCards" data-tasks-cards></div>
     </div>
 
     <div class="delete-stuff">
@@ -204,7 +192,7 @@
         <span class="options">
           <i
             data-bs-toggle="modal"
-            data-bs-target="#form"
+            data-bs-target="#newTaskForm"
             class="fas fa-edit"></i>
           <i class="fas fa-trash-alt"></i>
         </span>

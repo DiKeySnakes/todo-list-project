@@ -3,11 +3,10 @@ import './styles.css';
 
 const projectsContainer = document.querySelector('[data-projects-list]');
 const newProjectForm = document.querySelector('[data-new-project-form]');
-// const newProjectNameInput = document.querySelector('[data-new-project-input]');
-const tasksContainer = document.querySelector('[data-tasks-container]');
+const tasksContainer = document.getElementById('tasksContainer');
 const projectTitle = document.querySelector('[data-project-title]');
 const taskCount = document.querySelector('[data-task-count]');
-const tasks = document.querySelector('[data-tasks]');
+const tasksCards = document.querySelector('[data-tasks-cards]');
 const clearCompleteTasksButton = document.querySelector(
   '[data-clear-complete-tasks-button]'
 );
@@ -29,6 +28,67 @@ const addTask = document.getElementById('addTask');
 const addProject = document.getElementById('addProject');
 const tasksTemplate = document.getElementById('tasks-template');
 
+const LOCAL_STORAGE_PROJECT = 'task.projects';
+const LOCAL_STORAGE_SELECTED_PROJECT_ID = 'task.selectedProjectId';
+let projects = JSON.parse(localStorage.getItem(LOCAL_STORAGE_PROJECT)) || [];
+let selectedProjectId = localStorage.getItem(LOCAL_STORAGE_SELECTED_PROJECT_ID);
+
+projectsContainer.addEventListener('click', (e) => {
+  if (e.target.tagName.toLowerCase() === 'li') {
+    selectedProjectId = e.target.dataset.projectId;
+    save();
+    render();
+  }
+});
+
+tasksContainer.addEventListener('click', (e) => {
+  if (e.target.tagName.toLowerCase() === 'input') {
+    const selectedProject = projects.find(
+      (project) => project.id === selectedProjectId
+    );
+    const selectedTask = selectedProject.tasks.find(
+      (task) => task.id === e.target.id
+    );
+    selectedTask.complete = e.target.checked;
+    save();
+    renderTaskCount(selectedProject);
+    render();
+  }
+});
+
+clearCompleteTasksButton.addEventListener('click', (e) => {
+  const selectedProject = projects.find(
+    (project) => project.id === selectedProjectId
+  );
+  selectedProject.tasks = selectedProject.tasks.filter(
+    (task) => !task.complete
+  );
+  save();
+  render();
+});
+
+deleteProjectButton.addEventListener('click', (e) => {
+  projects = projects.filter((project) => project.id !== selectedProjectId);
+  selectedProjectId = null;
+  save();
+  render();
+});
+
+function createProject(name) {
+  return { id: Date.now().toString(), name: name, tasks: [] };
+}
+
+function createTask(priority, name, date, description) {
+  return {
+    id: Date.now().toString(),
+    priority: priority,
+    name: name,
+    date: date,
+    description: description,
+    complete: false,
+  };
+}
+
 newTaskForm.addEventListener('submit', (e) => {
   e.preventDefault();
   newTaskFormValidation();
@@ -46,7 +106,7 @@ const newTaskFormValidation = () => {
   } else {
     console.log('success');
     newTaskMessage.innerHTML = '';
-    acceptData();
+    acceptNewTaskData();
     addTask.setAttribute('data-bs-dismiss', 'modal');
     addTask.click();
 
@@ -64,7 +124,7 @@ const newProjectFormValidation = () => {
   } else {
     console.log('success');
     newProjectMessage.innerHTML = '';
-    // acceptData();
+    acceptNewProjectData();
     addProject.setAttribute('data-bs-dismiss', 'modal');
     addProject.click();
 
@@ -74,59 +134,114 @@ const newProjectFormValidation = () => {
   }
 };
 
-let data = [];
+const acceptNewProjectData = () => {
+  const projectName = newProjectNameInput.value;
+  const project = createProject(projectName);
+  projects.push(project);
 
-let acceptData = () => {
-  data.push({
-    id: Date.now().toString(),
-    priority: newTaskPriorityInput.value,
-    text: newTaskNameInput.value,
-    date: newTaskDueDateInput.value,
-    description: newTaskDescriptionInput.value,
-  });
+  save();
 
-  localStorage.setItem('data', JSON.stringify(data));
+  console.log(projects);
 
-  console.log(data);
-
-  createTasks();
+  render();
 };
 
-let createTasks = () => {
-  tasks.innerHTML = '';
-  data.forEach((task) => {
+const acceptNewTaskData = () => {
+  const newTaskPriority = newTaskPriorityInput.value;
+  const newTaskName = newTaskNameInput.value;
+  const newTaskDueDate = newTaskDueDateInput.value;
+  const newTaskDescription = newTaskDescriptionInput.value;
+
+  const task = createTask(
+    newTaskPriority,
+    newTaskName,
+    newTaskDueDate,
+    newTaskDescription
+  );
+
+  const selectedProject = projects.find(
+    (project) => project.id === selectedProjectId
+  );
+  console.log(selectedProject);
+  selectedProject.tasks.push(task);
+
+  save();
+
+  console.log(task);
+
+  render();
+};
+
+const renderProjects = () => {
+  projects.forEach((project) => {
+    const projectElement = document.createElement('li');
+    projectElement.dataset.projectId = project.id;
+    projectElement.classList.add('project-name');
+    projectElement.innerText = project.name;
+    if (project.id === selectedProjectId) {
+      projectElement.classList.add('active-project');
+    }
+    projectsContainer.appendChild(projectElement);
+  });
+
+  newProjectForm.reset();
+};
+
+const renderTasks = () => {
+  const selectedProject = projects.find(
+    (project) => project.id === selectedProjectId
+  );
+  tasksCards.innerHTML = '';
+  selectedProject.tasks.forEach((task) => {
     const tasksElement = document.importNode(tasksTemplate.content, true);
     const tasksDiv = tasksElement.querySelector('[data-tasks-div]');
     tasksDiv.id = task.id;
     console.log(task.id);
+    const checkbox = tasksElement.querySelector('input');
+    checkbox.id = task.id;
+    checkbox.checked = task.complete;
+    const label = tasksElement.querySelector('label');
+    label.htmlFor = task.id;
     const priority = document.querySelector('data-priority');
     tasksDiv.dataset.priority = task.priority;
     console.log(task.priority);
     let nameSpan = tasksElement.querySelector('[data-task-name]');
-    nameSpan.innerHTML = task.text;
-    console.log(task.text);
+    nameSpan.innerHTML = task.name;
+    console.log(task.name);
     let dateSpan = tasksElement.querySelector('[data-task-date]');
     dateSpan.innerHTML = task.date;
     console.log(task.date);
     let descriptionP = tasksElement.querySelector('[data-task-description]');
     descriptionP.innerHTML = task.description;
     console.log(task.description);
-    tasks.appendChild(tasksElement);
+    console.log(task.complete);
+    if (task.complete) {
+      tasksDiv.classList.add('complete');
+      nameSpan.dataset.taskName = 'complete';
+      dateSpan.dataset.taskDate = 'complete';
+      descriptionP.dataset.taskDescription = 'complete';
+    }
+    tasksCards.appendChild(tasksElement);
   });
 
   newTaskForm.reset();
 };
 
-let deleteTask = (e) => {
+const deleteTask = (e) => {
+  const selectedProject = projects.find(
+    (project) => project.id === selectedProjectId
+  );
+
   e.target.parentElement.parentElement.remove();
 
-  data = data.filter(
+  selectedProject.tasks = selectedProject.tasks.filter(
     (task) => task.id !== e.target.parentElement.parentElement.id
   );
 
-  localStorage.setItem('data', JSON.stringify(data));
+  save();
+  render();
 
-  console.log(data);
+  console.log(selectedProject.tasks);
 };
 
 let editTask = (e) => {
@@ -137,13 +252,25 @@ let editTask = (e) => {
   newTaskDueDateInput.value = selectedTask.children[1].innerHTML;
   newTaskDescriptionInput.value = selectedTask.children[2].innerHTML;
 
-  deleteTask(e);
+  const selectedProject = projects.find(
+    (project) => project.id === selectedProjectId
+  );
+
+  e.target.parentElement.parentElement.remove();
+
+  selectedProject.tasks = selectedProject.tasks.filter(
+    (task) => task.id !== e.target.parentElement.parentElement.id
+  );
+
+  save();
+
+  console.log(selectedProject.tasks);
 };
 
-tasks.addEventListener('click', (e) => {
+tasksCards.addEventListener('click', (e) => {
   if (e.target.classList.contains('fa-trash-alt')) {
     deleteTask(e);
-    createTasks();
+    renderTasks();
   } else if (e.target.classList.contains('fa-edit')) {
     editTask(e);
   } else {
@@ -151,8 +278,40 @@ tasks.addEventListener('click', (e) => {
   }
 });
 
-(() => {
-  data = JSON.parse(localStorage.getItem('data')) || [];
-  console.log(data);
-  createTasks();
-})();
+function clearElement(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+}
+
+function save() {
+  localStorage.setItem(LOCAL_STORAGE_PROJECT, JSON.stringify(projects));
+  localStorage.setItem(LOCAL_STORAGE_SELECTED_PROJECT_ID, selectedProjectId);
+}
+
+function renderTaskCount(selectedProject) {
+  const incompleteTaskCount = selectedProject.tasks.filter(
+    (task) => !task.complete
+  ).length;
+  const taskString = incompleteTaskCount === 1 ? 'task' : 'tasks';
+  taskCount.innerText = `${incompleteTaskCount} ${taskString} remaining`;
+}
+
+function render() {
+  clearElement(projectsContainer);
+  renderProjects();
+
+  const selectedProject = projects.find(
+    (project) => project.id === selectedProjectId
+  );
+  if (selectedProjectId == null) {
+    tasksContainer.style.display = 'none';
+  } else {
+    tasksContainer.style.display = '';
+    projectTitle.innerText = selectedProject.name;
+    renderTaskCount(selectedProject);
+    renderTasks(selectedProject);
+  }
+}
+
+render();
