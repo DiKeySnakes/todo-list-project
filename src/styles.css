@@ -3,12 +3,6 @@
 :root {
   --main-white: #f0f0f0;
   --main-black: rgba(0, 0, 0, 1);
-  --main-gray: hsla(212, 15%, 29%, 1);
-  --main-blue: rgba(48, 43, 99, 0.8);
-  --main-yellow: hsla(47, 100%, 58%, 1);
-  --main-text-shadow: 0.5rem 0.5rem 0.25rem rgba(0, 0, 0, 0.75);
-  --text-shadow-yellow: 0.5rem 0.5rem 0.25rem hsla(47, 100%, 58%, 0.5);
-  --main-box-shadow: 2.5rem 2.5rem 1.25rem 0rem rgba(0, 0, 0, 0.75);
 }
 
 *,
