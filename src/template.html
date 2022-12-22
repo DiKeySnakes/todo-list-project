@@ -138,43 +138,65 @@
       </div>
     </form>
 
-    <h1 class="title">Stuff I need to do</h1>
+    <div class="mainContainer">
+      <h1 class="title">Stuff I need to do</h1>
 
-    <div class="all-projects">
-      <h4 class="mb-3 projects-list-title">My Projects</h4>
-      <ul class="projects-list" data-projects-list></ul>
+      <div class="all-projects">
+        <h4 class="mb-3 projects-list-title">My Projects</h4>
+        <ul class="projects-list" data-projects-list></ul>
 
-      <div
-        id="addNewProject"
-        data-bs-toggle="modal"
-        data-bs-target="#newProjectForm">
-        <span>Add New Project</span>
-        <i class="fas fa-plus"></i>
+        <div
+          id="addNewProject"
+          data-bs-toggle="modal"
+          data-bs-target="#newProjectForm">
+          <span>Add New Project</span>
+          <i class="fas fa-plus"></i>
+        </div>
+      </div>
+
+      <div id="tasksContainer" class="app todo-list" data-tasks-container>
+        <div class="todo-header">
+          <h4 class="mb-3 project-title" data-project-title>YouTube</h4>
+          <p class="task-count" data-task-count>3 tasks remaining</p>
+        </div>
+
+        <div id="addNew" data-bs-toggle="modal" data-bs-target="#newTaskForm">
+          <span>Add New Task</span>
+          <i class="fas fa-plus"></i>
+        </div>
+        <h5 class="text-center my-3">Tasks</h5>
+
+        <div id="tasksCards" data-tasks-cards></div>
       </div>
     </div>
 
-    <div id="tasksContainer" class="app todo-list" data-tasks-container>
-      <div class="todo-header">
-        <h4 class="mb-3 project-title" data-project-title>YouTube</h4>
-        <p class="task-count" data-task-count>3 tasks remaining</p>
-      </div>
-
-      <div id="addNew" data-bs-toggle="modal" data-bs-target="#newTaskForm">
-        <span>Add New Task</span>
-        <i class="fas fa-plus"></i>
-      </div>
-      <h5 class="text-center my-3">Tasks</h5>
-
-      <div id="tasksCards" data-tasks-cards></div>
-    </div>
-
-    <div class="delete-stuff">
-      <button class="btn delete" data-clear-complete-tasks-button>
-        Clear completed tasks
-      </button>
+    <div id="delete-stuff">
       <button class="btn delete" data-delete-project-button>
-        Delete project
+        Delete active project&nbsp;&nbsp;<i class="fas fa-trash-alt"></i>
       </button>
+      <button class="btn delete" data-clear-complete-tasks-button>
+        Clear completed tasks&nbsp;&nbsp;<i class="fas fa-trash-alt"></i>
+      </button>
+    </div>
+
+    <div id="footer">
+      <footer>
+        <p>
+          Created by DiKeySnakes for
+          <a href="https://theodinproject.com/" target="_blank"
+            >The Odin Project</a
+          >
+          curriculum
+        </p>
+        <p>
+          Copyright &copy; DiKeySnakes 2022
+          <a
+            href="https://github.com/DiKeySnakes/todo-list-project"
+            target="_blank"
+            ><i id="icon" class="fa-brands fa-github"></i
+          ></a>
+        </p>
+      </footer>
     </div>
 
     <template id="tasks-template">
