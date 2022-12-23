@@ -1,4 +1,5 @@
 'use strict';
+import { format } from 'date-fns';
 
 const App = (function () {
   const projectsContainer = document.querySelector('[data-projects-list]');
@@ -211,8 +212,14 @@ const App = (function () {
       nameSpan.innerHTML = task.name;
       console.log(task.name);
       let dateSpan = tasksElement.querySelector('[data-task-date]');
-      dateSpan.innerHTML = task.date;
-      console.log(task.date);
+      const dateObject = new Date(task.date);
+      const dateDayOfWeek = format(dateObject, 'EEEE');
+      const dateMonth = format(dateObject, 'MMMM');
+      const dateDay = format(dateObject, 'do');
+      const dateYear = format(dateObject, 'yyyy');
+      const dateFormatted = `${dateDayOfWeek}, ${dateMonth} ${dateDay}, ${dateYear}`;
+      dateSpan.innerHTML = dateFormatted;
+      console.log(dateFormatted);
       let descriptionP = tasksElement.querySelector('[data-task-description]');
       descriptionP.innerHTML = task.description;
       console.log(task.description);
