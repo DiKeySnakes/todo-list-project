@@ -91,11 +91,11 @@ const App = (function () {
     render();
   });
 
-  function createProject(name) {
+  const createProject = (name) => {
     return { id: Date.now().toString(), name: name, tasks: [] };
-  }
+  };
 
-  function createTask(priority, name, date, description) {
+  const createTask = (priority, name, date, description) => {
     return {
       id: Date.now().toString(),
       priority: priority,
@@ -104,7 +104,7 @@ const App = (function () {
       description: description,
       complete: false,
     };
-  }
+  };
 
   newTaskForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -229,7 +229,7 @@ const App = (function () {
       const dateObject = new Date(task.date);
       const dateDayOfWeek = format(dateObject, 'EEEE');
       const dateMonth = format(dateObject, 'MMMM');
-      const dateDay = format(dateObject, 'do');
+      const dateDay = format(dateObject, 'd');
       const dateYear = format(dateObject, 'yyyy');
       const dateFormatted = `${dateDayOfWeek}, ${dateMonth} ${dateDay}, ${dateYear}`;
       dateSpan.innerHTML = dateFormatted;
@@ -323,26 +323,26 @@ const App = (function () {
     }
   });
 
-  function clearElement(element) {
+  const clearElement = (element) => {
     while (element.firstChild) {
       element.removeChild(element.firstChild);
     }
-  }
+  };
 
-  function save() {
+  const save = () => {
     localStorage.setItem(LOCAL_STORAGE_PROJECT, JSON.stringify(projects));
     localStorage.setItem(LOCAL_STORAGE_SELECTED_PROJECT_ID, selectedProjectId);
-  }
+  };
 
-  function renderTaskCount(selectedProject) {
+  const renderTaskCount = (selectedProject) => {
     const incompleteTaskCount = selectedProject.tasks.filter(
       (task) => !task.complete
     ).length;
     const taskString = incompleteTaskCount === 1 ? 'task' : 'tasks';
     taskCount.innerText = `${incompleteTaskCount} ${taskString} remaining`;
-  }
+  };
 
-  function render() {
+  const render = () => {
     clearElement(projectsContainer);
     renderProjects();
 
@@ -357,7 +357,7 @@ const App = (function () {
       renderTaskCount(selectedProject);
       renderTasks(selectedProject);
     }
-  }
+  };
 
   render();
 })();
