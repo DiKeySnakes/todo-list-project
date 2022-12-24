@@ -8,6 +8,12 @@ const App = (function () {
   const projectTitle = document.querySelector('[data-project-title]');
   const taskCount = document.querySelector('[data-task-count]');
   const tasksCards = document.querySelector('[data-tasks-cards]');
+  const taskFormTopCloseButton = document.querySelector(
+    '[data-task-form-top-close-button]'
+  );
+  const taskFormBottomCloseButton = document.querySelector(
+    '[data-task-form-bottom-close-button]'
+  );
   const clearCompleteTasksButton = document.querySelector(
     '[data-clear-complete-tasks-button]'
   );
@@ -268,37 +274,26 @@ const App = (function () {
 
     const selectedTask = e.target.parentElement.parentElement;
 
+    const selectedTaskPriority = selectedProject.tasks.find(
+      (task) => task.id === selectedTask.id
+    ).priority;
+
     const selectedTaskName = selectedProject.tasks.find(
       (task) => task.id === selectedTask.id
     ).name;
-    console.log(`find ${selectedTaskName}`);
 
     const selectedTaskDate = selectedProject.tasks.find(
       (task) => task.id === selectedTask.id
     ).date;
-    console.log(`find ${selectedTaskDate}`);
 
     const selectedTaskDescription = selectedProject.tasks.find(
       (task) => task.id === selectedTask.id
     ).description;
-    console.log(`find ${selectedTaskDescription}`);
-
-    const selectedTaskPriority = selectedProject.tasks.find(
-      (task) => task.id === selectedTask.id
-    ).priority;
-    console.log(`find ${selectedTaskPriority}`);
 
     newTaskPriorityInput.value = selectedTaskPriority;
     newTaskNameInput.value = selectedTaskName;
-    // newTaskNameInput.value =
-    //   selectedTask.firstElementChild.children[1].textContent.trim();
-    // newTaskDueDateInput.value = selectedTask.children[1].innerHTML;
     newTaskDueDateInput.value = selectedTaskDate;
-    console.log(selectedTaskDate);
     newTaskDescriptionInput.value = selectedTaskDescription;
-    // newTaskDescriptionInput.value = selectedTask.children[2].innerHTML;
-
-    // e.target.parentElement.parentElement.remove();
 
     save();
 
@@ -306,7 +301,14 @@ const App = (function () {
       (task) => task.id !== e.target.parentElement.parentElement.id
     );
 
-    // save();
+    taskFormTopCloseButton.onclick = () => {
+      newTaskForm.submit();
+    };
+
+    taskFormBottomCloseButton.onclick = () => {
+      newTaskForm.submit();
+    };
+
     console.log(selectedProject.tasks);
   };
 
