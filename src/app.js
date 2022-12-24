@@ -42,6 +42,21 @@ const App = (function () {
     LOCAL_STORAGE_SELECTED_PROJECT_ID
   );
 
+  const createProject = (name) => {
+    return { id: Date.now().toString(), name: name, tasks: [] };
+  };
+
+  const createTask = (priority, name, date, description) => {
+    return {
+      id: Date.now().toString(),
+      priority: priority,
+      name: name,
+      date: date,
+      description: description,
+      complete: false,
+    };
+  };
+
   if (projects.length === 0) {
     projects.push(createProject('test project'));
     console.log('created test project');
@@ -90,21 +105,6 @@ const App = (function () {
     save();
     render();
   });
-
-  const createProject = (name) => {
-    return { id: Date.now().toString(), name: name, tasks: [] };
-  };
-
-  const createTask = (priority, name, date, description) => {
-    return {
-      id: Date.now().toString(),
-      priority: priority,
-      name: name,
-      date: date,
-      description: description,
-      complete: false,
-    };
-  };
 
   newTaskForm.addEventListener('submit', (e) => {
     e.preventDefault();
