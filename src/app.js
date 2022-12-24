@@ -36,6 +36,14 @@ const App = (function () {
     LOCAL_STORAGE_SELECTED_PROJECT_ID
   );
 
+  if (projects.length === 0) {
+    projects.push(createProject('test project'));
+    console.log('created test project');
+    console.log(projects);
+    selectedProjectId = projects[0].id;
+    console.log(selectedProjectId);
+  }
+
   projectsContainer.addEventListener('click', (e) => {
     if (e.target.tagName.toLowerCase() === 'li') {
       selectedProjectId = e.target.dataset.projectId;
@@ -253,26 +261,52 @@ const App = (function () {
     console.log(selectedProject.tasks);
   };
 
-  let editTask = (e) => {
-    let selectedTask = e.target.parentElement.parentElement;
-
-    newTaskNameInput.value =
-      selectedTask.firstElementChild.children[1].textContent.trim();
-    newTaskDueDateInput.value = selectedTask.children[1].innerHTML;
-    newTaskDescriptionInput.value = selectedTask.children[2].innerHTML;
-
+  const editTask = (e) => {
     const selectedProject = projects.find(
       (project) => project.id === selectedProjectId
     );
 
-    e.target.parentElement.parentElement.remove();
+    const selectedTask = e.target.parentElement.parentElement;
+
+    const selectedTaskName = selectedProject.tasks.find(
+      (task) => task.id === selectedTask.id
+    ).name;
+    console.log(`find ${selectedTaskName}`);
+
+    const selectedTaskDate = selectedProject.tasks.find(
+      (task) => task.id === selectedTask.id
+    ).date;
+    console.log(`find ${selectedTaskDate}`);
+
+    const selectedTaskDescription = selectedProject.tasks.find(
+      (task) => task.id === selectedTask.id
+    ).description;
+    console.log(`find ${selectedTaskDescription}`);
+
+    const selectedTaskPriority = selectedProject.tasks.find(
+      (task) => task.id === selectedTask.id
+    ).priority;
+    console.log(`find ${selectedTaskPriority}`);
+
+    newTaskPriorityInput.value = selectedTaskPriority;
+    newTaskNameInput.value = selectedTaskName;
+    // newTaskNameInput.value =
+    //   selectedTask.firstElementChild.children[1].textContent.trim();
+    // newTaskDueDateInput.value = selectedTask.children[1].innerHTML;
+    newTaskDueDateInput.value = selectedTaskDate;
+    console.log(selectedTaskDate);
+    newTaskDescriptionInput.value = selectedTaskDescription;
+    // newTaskDescriptionInput.value = selectedTask.children[2].innerHTML;
+
+    // e.target.parentElement.parentElement.remove();
+
+    save();
 
     selectedProject.tasks = selectedProject.tasks.filter(
       (task) => task.id !== e.target.parentElement.parentElement.id
     );
 
-    save();
-
+    // save();
     console.log(selectedProject.tasks);
   };
 
