@@ -63,6 +63,81 @@ const App = (function () {
     console.log(projects);
     selectedProjectId = projects[0].id;
     console.log(selectedProjectId);
+    const selectedProject = projects.find(
+      (project) => project.id === selectedProjectId
+    );
+    selectedProject.tasks.push({
+      id: '1671973451191',
+      priority: 'low',
+      name: 'test task one',
+      date: '2022-12-25',
+      description: 'test task one description',
+      complete: false,
+    });
+    selectedProject.tasks.push({
+      id: '1671973451192',
+      priority: 'medium',
+      name: 'test task two',
+      date: '2022-12-26',
+      description: 'test task two description',
+      complete: false,
+    });
+    selectedProject.tasks.push({
+      id: '1671973451193',
+      priority: 'high',
+      name: 'test task three',
+      date: '2022-12-27',
+      description: 'test task three description',
+      complete: false,
+    });
+    selectedProject.tasks.push({
+      id: '1671973451194',
+      priority: 'high',
+      name: 'test task four',
+      date: '2022-12-28',
+      description: 'test task four description',
+      complete: false,
+    });
+    selectedProject.tasks.push({
+      id: '1671973451195',
+      priority: 'low',
+      name: 'test task five',
+      date: '2022-12-29',
+      description: 'test task five description',
+      complete: false,
+    });
+    selectedProject.tasks.push({
+      id: '1671973451196',
+      priority: 'medium',
+      name: 'test task six',
+      date: '2022-12-30',
+      description: 'test task six description',
+      complete: false,
+    });
+    selectedProject.tasks.push({
+      id: '1671973451197',
+      priority: 'high',
+      name: 'test task seven',
+      date: '2022-12-31',
+      description: 'test task seven description',
+      complete: false,
+    });
+    selectedProject.tasks.push({
+      id: '1671973451198',
+      priority: 'medium',
+      name: 'test task eight',
+      date: '2023-01-01',
+      description: 'test task eight description',
+      complete: false,
+    });
+    selectedProject.tasks.push({
+      id: '1671973451199',
+      priority: 'low',
+      name: 'test task nine',
+      date: '2023-01-02',
+      description: 'test task nine description',
+      complete: false,
+    });
   }
 
   projectsContainer.addEventListener('click', (e) => {
