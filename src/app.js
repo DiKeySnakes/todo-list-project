@@ -116,7 +116,7 @@ const App = (function () {
     });
     selectedProject.tasks.push({
       id: '1671973451197',
-      priority: 'high',
+      priority: 'low',
       name: 'test task seven',
       date: '2022-12-31',
       description: 'test task seven description',
@@ -132,7 +132,7 @@ const App = (function () {
     });
     selectedProject.tasks.push({
       id: '1671973451199',
-      priority: 'low',
+      priority: 'high',
       name: 'test task nine',
       date: '2023-01-02',
       description: 'test task nine description',
