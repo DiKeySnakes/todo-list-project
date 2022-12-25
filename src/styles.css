@@ -149,6 +149,10 @@ body {
   padding: 0;
 }
 
+[type='checkbox'] {
+  cursor: pointer;
+}
+
 [data-task-date] {
   padding-left: 5px;
 }

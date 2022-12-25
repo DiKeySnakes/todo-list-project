@@ -59,10 +59,7 @@ const App = (function () {
 
   if (projects.length === 0) {
     projects.push(createProject('test project'));
-    console.log('created test project');
-    console.log(projects);
     selectedProjectId = projects[0].id;
-    console.log(selectedProjectId);
     const selectedProject = projects.find(
       (project) => project.id === selectedProjectId
     );
@@ -193,10 +190,8 @@ const App = (function () {
 
   const newTaskFormValidation = () => {
     if (newTaskNameInput.value === '') {
-      console.log('failure');
       newTaskMessage.innerHTML = 'Task cannot be blank';
     } else {
-      console.log('success');
       newTaskMessage.innerHTML = '';
       acceptNewTaskData();
       addTask.setAttribute('data-bs-dismiss', 'modal');
@@ -211,10 +206,8 @@ const App = (function () {
   const newProjectFormValidation = () => {
     const projectName = newProjectNameInput.value;
     if (projectName == null || projectName === '') {
-      console.log('failure');
       newProjectMessage.innerHTML = 'Project cannot be blank';
     } else {
-      console.log('success');
       newProjectMessage.innerHTML = '';
       acceptNewProjectData();
       addProject.setAttribute('data-bs-dismiss', 'modal');
@@ -232,9 +225,6 @@ const App = (function () {
     projects.push(project);
 
     save();
-
-    console.log(projects);
-
     render();
   };
 
@@ -254,13 +244,9 @@ const App = (function () {
     const selectedProject = projects.find(
       (project) => project.id === selectedProjectId
     );
-    console.log(selectedProject);
     selectedProject.tasks.push(task);
 
     save();
-
-    console.log(task);
-
     render();
   };
 
@@ -288,7 +274,6 @@ const App = (function () {
       const tasksElement = document.importNode(tasksTemplate.content, true);
       const tasksDiv = tasksElement.querySelector('[data-tasks-div]');
       tasksDiv.id = task.id;
-      console.log(task.id);
       const checkbox = tasksElement.querySelector('input');
       checkbox.id = task.id;
       checkbox.checked = task.complete;
@@ -296,11 +281,9 @@ const App = (function () {
       label.htmlFor = task.id;
       const priority = document.querySelector('data-priority');
       tasksDiv.dataset.priority = task.priority;
-      console.log(task.priority);
-      let nameSpan = tasksElement.querySelector('[data-task-name]');
+      const nameSpan = tasksElement.querySelector('[data-task-name]');
       nameSpan.innerHTML = task.name;
-      console.log(task.name);
-      let dateSpan = tasksElement.querySelector('[data-task-date]');
+      const dateSpan = tasksElement.querySelector('[data-task-date]');
       const dateObject = new Date(task.date);
       const dateDayOfWeek = format(dateObject, 'EEEE');
       const dateMonth = format(dateObject, 'MMMM');
@@ -308,11 +291,10 @@ const App = (function () {
       const dateYear = format(dateObject, 'yyyy');
       const dateFormatted = `${dateDayOfWeek}, ${dateMonth} ${dateDay}, ${dateYear}`;
       dateSpan.innerHTML = dateFormatted;
-      console.log(dateFormatted);
-      let descriptionP = tasksElement.querySelector('[data-task-description]');
+      const descriptionP = tasksElement.querySelector(
+        '[data-task-description]'
+      );
       descriptionP.innerHTML = task.description;
-      console.log(task.description);
-      console.log(task.complete);
       if (task.complete) {
         tasksDiv.classList.add('complete');
         nameSpan.dataset.taskName = 'complete';
@@ -338,8 +320,6 @@ const App = (function () {
 
     save();
     render();
-
-    console.log(selectedProject.tasks);
   };
 
   const editTask = (e) => {
@@ -383,8 +363,6 @@ const App = (function () {
     taskFormBottomCloseButton.onclick = () => {
       newTaskForm.submit();
     };
-
-    console.log(selectedProject.tasks);
   };
 
   tasksCards.addEventListener('click', (e) => {
